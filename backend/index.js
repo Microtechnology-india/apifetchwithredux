@@ -6,7 +6,7 @@ app.use(express.json());
 app.use(cors())
 app.use(morgan("dev"));
 
-const port = 5000;
+const port = 5500;
 
 const { employeeRoute } = require('./routes/employeeRoutes');
 app.use('/api', employeeRoute);

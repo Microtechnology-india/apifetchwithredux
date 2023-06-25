@@ -23,7 +23,7 @@ import {
 export const getEmployee = () => async (dispatch) => {
     try {
         dispatch({ type: ALL_EMPLOYEE_REQUEST })
-        const { data } = await axios.get(`http://localhost:5000/api/employee`);
+        const { data } = await axios.get(`http://localhost:5500/api/employee`);
         dispatch({
             type: ALL_EMPLOYEE_SUCCESS,
             payload: data,
@@ -41,7 +41,7 @@ export const getEmployee = () => async (dispatch) => {
 export const getEmployeeDetails = (empid) => async (dispatch) => {
     try {
         dispatch({ type: EMPLOYEE_DETAILS_REQUEST })
-        const { data } = await axios.get(`http://localhost:5000/api/employee/${empid}`)
+        const { data } = await axios.get(`http://localhost:5500/api/employee/${empid}`)
         dispatch({
             type: EMPLOYEE_DETAILS_SUCCESS,
             payload: data.employee
@@ -62,7 +62,7 @@ export const createEmployee = (employeeData) => async (dispatch) => {
         const configs = {
             headers: { 'Content-Type': "application/json" }
         }
-        const { data } = await axios.post(`http://localhost:5000/api/employee`, employeeData, configs);
+        const { data } = await axios.post(`http://localhost:5500/api/employee`, employeeData, configs);
         dispatch({
             type: NEW_EMPLOYEE_SUCCESS,
             payload: data,
@@ -84,7 +84,7 @@ export const updateEmployee = (empid, employeeData) => async (dispatch) => {
         const configs = {
             headers: { 'Content-Type': 'application/json' }
         }
-        const { data } = await axios.post(`http://localhost:5000/api/employee/${empid}`, employeeData, configs)
+        const { data } = await axios.put(`http://localhost:5500/api/employee/${empid}`, employeeData, configs)
 
         dispatch({
             type: UPDATE_EMPLOYEE_SUCCESS,
@@ -104,7 +104,7 @@ export const deleteEmployee = (empid) => async (dispatch) => {
     try {
         dispatch({ type: DELETE_EMPLOYEE_REQUEST })
 
-        const { data } = await axios.delete(`http://localhost:5000/api/employee/${empid}`)
+        const { data } = await axios.delete(`http://localhost:5500/api/employee/${empid}`)
         console.log(data, empid, 'data')
         dispatch({
             type: DELETE_EMPLOYEE_SUCCESS,

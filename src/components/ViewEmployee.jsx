@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { getEmployee, clearErors, deleteEmployee } from '../actions/employeeActions';
 import { Button, Table } from 'react-bootstrap';
@@ -17,6 +17,7 @@ const ViewEmployee = () => {
 
     const deleteEmployeeHandler = (empid) => {
         dispatch(deleteEmployee(empid))
+        dispatch(getEmployee())
     }
 
     useEffect(() => {
@@ -59,7 +60,7 @@ const ViewEmployee = () => {
                                 <td>{item.empname}</td>
                                 <td>{item.city}</td>
                                 <td>{item.salary}</td>
-                                <td><Button variant="primary"><Link to={`/edit/${item.empid}`}>Edit</Link></Button></td>
+                                <td><Button variant="primary" onClick={() => navigate(`/edit/${item.empid}`)}>Edit</Button></td>
                                 <td><Button variant="danger" onClick={() => deleteEmployeeHandler(item.empid)}>Delete</Button></td>
                             </tr>
                         )

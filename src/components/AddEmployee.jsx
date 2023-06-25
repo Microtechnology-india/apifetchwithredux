@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { Button, Modal, Form, Row, Col } from 'react-bootstrap'
-import { createEmployee } from '../actions/employeeActions';
+import { createEmployee, getEmployee } from '../actions/employeeActions';
 
 const AddEmployee = () => {
-    const navigate = useNavigate()
     const dispatch = useDispatch();
 
     const [empinfo, setEmpinfo] = useState({
@@ -35,6 +33,7 @@ const AddEmployee = () => {
 
         dispatch(createEmployee(myForm))
         handleClose();
+        dispatch(getEmployee())
     }
 
     return (
@@ -45,7 +44,7 @@ const AddEmployee = () => {
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
+                    <Modal.Title>Add Employee</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
@@ -54,7 +53,7 @@ const AddEmployee = () => {
                                 EmpId:
                             </Form.Label>
                             <Col sm="10">
-                                <Form.Control type='text' name="empid" onChange={handleChange} />
+                                <Form.Control type='text' placeholder='Enter emp-id' name="empid" onChange={handleChange} />
                             </Col>
                         </Form.Group>
 
@@ -85,11 +84,8 @@ const AddEmployee = () => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button type='submit' variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
                     <Button type='submit' variant="primary" onClick={handleSubmit}>
-                        Save Changes
+                        Save
                     </Button>
                 </Modal.Footer>
             </Modal>

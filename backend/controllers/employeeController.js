@@ -20,11 +20,17 @@ const getEmployeesData = async (req, res) => {
 const getEmployee = async (req, res) => {
     try {
         const data = req.params.id;
-        const SqlQuery = `SELECT * FROM employee WHERE empid = ?`;
-        await con.query(SqlQuery, data, (err, employee) => {
+        const SqlQuery = `SELECT * FROM employee WHERE empid = ${data}`;
+        await con.query(SqlQuery, (err, result) => {
+            console.log(result, 'result')
             if (err) {
                 return res.status(400).json(err.sqlMessage)
             }
+            if (result.length === 0) {
+                return res.status(404).json({ message: "Employee not found" });
+            }
+            const employee = result[0];
+            console.log(employee, 'employee')
             res.status(200).json({
                 success: true,
                 employee,

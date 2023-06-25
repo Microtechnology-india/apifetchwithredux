@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Modal, Button, Row, Col } from 'react-bootstrap';
 import { clearErors, getEmployeeDetails, updateEmployee } from '../actions/employeeActions';
 import { UPDATE_EMPLOYEE_RESET } from '../constants/employeeContants';
 
 const UpdateEmployee = () => {
-  const { id } = useLocation();
+  const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { employee, error } = useSelector((state) => state.employee)
-  const { isUpdated } = useSelector((state) => state.employee)
-
+  const empid = id
+  const { employee, error } = useSelector((state) => state.employeeDetails) || {}  
+  const { isUpdated } = useSelector((state) => state.employee)  
+  console.log(employee, 'emmployee')
   const [show, setShow] = useState(false);
 
-  const employeeId = id
-
+  console.log(empid, 'employee id')
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [empname, setEmpName] = useState('')
@@ -23,9 +23,12 @@ const UpdateEmployee = () => {
   const [salary, setSalary] = useState('')
 
   useEffect(() => {
-    if (employee && employee.empid !== employeeId) {
-      dispatch(getEmployeeDetails(employeeId))
-    } else {
+    console.log('Updating employee details...');
+    if (employee && employee.empid !== empid) {
+      console.log('Fetching employee details...');
+      dispatch(getEmployeeDetails(empid))
+    } else if (employee) {
+      console.log('Setting employee details...', employee);
       setEmpName(employee.empname)
       setCity(employee.city)
       setSalary(employee.salary)
@@ -39,7 +42,7 @@ const UpdateEmployee = () => {
       navigate('/view')
       dispatch({ type: UPDATE_EMPLOYEE_RESET })
     }
-  }, [dispatch, error, navigate, isUpdated, employeeId, employee])
+  }, [dispatch, error, navigate, isUpdated, empid, employee])
 
 
   const handleSubmit = async (e) => {
@@ -49,18 +52,19 @@ const UpdateEmployee = () => {
     formData.set('city', city);
     formData.set('salary', salary);
 
-    dispatch(updateEmployee(employeeId, formData))
+    dispatch(updateEmployee(empid, formData))
   }
+
+  useEffect(() => {
+    handleShow()
+  }, [])
 
   return (
     <div>
-      <Button variant="primary" onClick={handleShow}>
-        Add
-      </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Update Employee</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -91,11 +95,8 @@ const UpdateEmployee = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
           <Button variant="primary" onClick={handleSubmit}>
-            Save Changes
+            Save
           </Button>
         </Modal.Footer>
       </Modal>
