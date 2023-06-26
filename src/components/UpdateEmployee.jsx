@@ -11,11 +11,9 @@ const UpdateEmployee = () => {
   const dispatch = useDispatch();
   const empid = id
   const { employee, error } = useSelector((state) => state.employeeDetails) || {}  
-  const { isUpdated } = useSelector((state) => state.employee)  
-  console.log(employee, 'emmployee')
+  const { isUpdated } = useSelector((state) => state.employee)
   const [show, setShow] = useState(false);
 
-  console.log(empid, 'employee id')
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [empname, setEmpName] = useState('')
@@ -23,12 +21,9 @@ const UpdateEmployee = () => {
   const [salary, setSalary] = useState('')
 
   useEffect(() => {
-    console.log('Updating employee details...');
     if (employee && employee.empid !== empid) {
-      console.log('Fetching employee details...');
       dispatch(getEmployeeDetails(empid))
     } else if (employee) {
-      console.log('Setting employee details...', employee);
       setEmpName(employee.empname)
       setCity(employee.city)
       setSalary(employee.salary)
@@ -73,7 +68,7 @@ const UpdateEmployee = () => {
                 Emp_Name:
               </Form.Label>
               <Col sm="10">
-                <Form.Control type="text" placeholder="Enter emp_name" name="empname" onChange={(e) => setEmpName(e.target.value)} />
+                <Form.Control type="text" placeholder="Enter emp_name" name="empname" value={empname} onChange={(e) => setEmpName(e.target.value)} />
               </Col>
             </Form.Group>
             <Form.Group as={Row} className="mb-3" controlId="formPlaintextcity">
@@ -81,7 +76,7 @@ const UpdateEmployee = () => {
                 City:
               </Form.Label>
               <Col sm="10">
-                <Form.Control type="text" placeholder="Enter City" name="city" onChange={(e) => setCity(e.target.value)} />
+                <Form.Control type="text" placeholder="Enter City" name="city" value={city} onChange={(e) => setCity(e.target.value)} />
               </Col>
             </Form.Group>
             <Form.Group as={Row} className="mb-3" controlId="formPlaintextSalary">
@@ -89,7 +84,7 @@ const UpdateEmployee = () => {
                 Salary:
               </Form.Label>
               <Col sm="10">
-                <Form.Control type="text" placeholder="Enter Salary" name="salary" onChange={(e) => setSalary(e.target.value)} />
+                <Form.Control type="text" placeholder="Enter Salary" name="salary" value={salary} onChange={(e) => setSalary(e.target.value)} />
               </Col>
             </Form.Group>
           </Form>
