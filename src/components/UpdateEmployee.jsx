@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Modal, Button, Row, Col } from 'react-bootstrap';
-import { clearErors, getEmployeeDetails, updateEmployee } from '../actions/employeeActions';
+import { clearErors, updateEmployee } from '../actions/employeeActions';
 import { UPDATE_EMPLOYEE_RESET } from '../constants/employeeContants';
 
 const UpdateEmployee = () => {
@@ -10,24 +10,17 @@ const UpdateEmployee = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const empid = id
-  const { employee, error } = useSelector((state) => state.employeeDetails) || {}  
+  const { employee, error } = useSelector((state) => state.employeeDetails) || {}
   const { isUpdated } = useSelector((state) => state.employee)
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [empname, setEmpName] = useState('')
-  const [city, setCity] = useState('')
-  const [salary, setSalary] = useState('')
+  const [empname, setEmpName] = useState(employee?.empname)
+  const [city, setCity] = useState(employee?.city)
+  const [salary, setSalary] = useState(employee?.salary)
 
   useEffect(() => {
-    if (employee && employee.empid !== empid) {
-      dispatch(getEmployeeDetails(empid))
-    } else if (employee) {
-      setEmpName(employee.empname)
-      setCity(employee.city)
-      setSalary(employee.salary)
-    }
     if (error) {
       alert(error)
       dispatch(clearErors())
@@ -37,8 +30,7 @@ const UpdateEmployee = () => {
       navigate('/view')
       dispatch({ type: UPDATE_EMPLOYEE_RESET })
     }
-  }, [dispatch, error, navigate, isUpdated, empid, employee])
-
+  }, [dispatch, error, isUpdated, navigate])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,7 +38,6 @@ const UpdateEmployee = () => {
     formData.set('empname', empname);
     formData.set('city', city);
     formData.set('salary', salary);
-
     dispatch(updateEmployee(empid, formData))
   }
 

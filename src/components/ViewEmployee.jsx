@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
-import { getEmployee, clearErors, deleteEmployee } from '../actions/employeeActions';
+import { getEmployee, clearErors, deleteEmployee, getEmployeeDetails } from '../actions/employeeActions';
 import { Button, Table } from 'react-bootstrap';
 import AddEmployee from './AddEmployee';
 import { DELETE_EMPLOYEE_RESET } from '../constants/employeeContants';
@@ -37,6 +37,11 @@ const ViewEmployee = () => {
         dispatch(getEmployee())
     }, [dispatch, error, isDeleted, navigate])
 
+    const handleSubmit = async (empid) => {
+        dispatch(getEmployeeDetails(empid))
+        navigate(`/edit/${empid}`)
+    }
+
 
     return (
         <div className='p-5'>
@@ -60,7 +65,7 @@ const ViewEmployee = () => {
                                 <td>{item.empname}</td>
                                 <td>{item.city}</td>
                                 <td>{item.salary}</td>
-                                <td><Button variant="primary" onClick={() => navigate(`/edit/${item.empid}`)}>Edit</Button></td>
+                                <td><Button variant="primary" onClick={() => handleSubmit(item.empid)}>Edit</Button></td>
                                 <td><Button variant="danger" onClick={() => deleteEmployeeHandler(item.empid)}>Delete</Button></td>
                             </tr>
                         )

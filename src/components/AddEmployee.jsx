@@ -5,9 +5,7 @@ import { createEmployee, getEmployee } from '../actions/employeeActions';
 
 const AddEmployee = () => {
     const dispatch = useDispatch();
-
     const [empinfo, setEmpinfo] = useState({
-        empid: '',
         empname: '',
         city: '',
         salary: '',
@@ -26,11 +24,9 @@ const AddEmployee = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const myForm = new FormData()
-        myForm.set('empid', empinfo.empid)
         myForm.set('empname', empinfo.empname)
         myForm.set('city', empinfo.city)
         myForm.set('salary', empinfo.salary)
-
         dispatch(createEmployee(myForm))
         handleClose();
         dispatch(getEmployee())
@@ -48,15 +44,6 @@ const AddEmployee = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
-                        <Form.Group as={Row} className="mb-3" controlId="formPlaintextId">
-                            <Form.Label column sm="2">
-                                EmpId:
-                            </Form.Label>
-                            <Col sm="10">
-                                <Form.Control type='text' placeholder='Enter emp-id' name="empid" onChange={handleChange} />
-                            </Col>
-                        </Form.Group>
-
                         <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmpName">
                             <Form.Label column sm="2">
                                 Emp_Name:
